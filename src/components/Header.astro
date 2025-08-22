@@ -1,10 +1,47 @@
 ---
 import Navigation from './Navigation.astro';
 import kdg_logo from '../assets/kdg_logo.jpg';
+import shoppingcart from '../assets/reshot-icon-shopping-cart-WFDT3CVZMJ.svg';
+const {pageTitle} = Astro.props;
 ---
 <header>
-    <img src={kdg_logo.src} alt=""/>
-  <nav>
-    <Navigation />
-  </nav>
+    <img src={kdg_logo.src} width="100px" alt="het logo van KDG"/>
+      <h1>{pageTitle}</h1>
+    <div>
+       <nav>
+        <Navigation />
+       </nav>
+       <a href="/order">
+            <img src={shoppingcart.src}  width="50px" alt="Winkelmandje" > 
+      </a>
+    </div>
+
 </header>
+
+<style>
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px;
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #e7e7e7;
+  }
+  div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  h1 {
+    padding-left: 255px;
+  }
+  a{
+    border: 2px solid #f8f8f8;
+    padding: 8px 15px;
+  }
+  a:hover{
+    border: 2px solid black;
+    border-radius: 50%;
+  }
+
+</style>
