@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/BasicLayout.astro';
+import ProductDetail from '../../components/ProductDetail.astro';
+const { id } = Astro.params;
+const pageURL = "http://127.0.0.1:8000/astro/get/products/" + id;
+const response = await fetch(pageURL);
+const products = await response.json();
+
+---
+
+<Layout pageTitle="Product Details">
+    <ProductDetail products={products} />
+</Layout>

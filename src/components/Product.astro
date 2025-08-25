@@ -1,0 +1,46 @@
+---
+const products = Astro.props.products;
+---
+  <div class="products">
+	{products.map((product) => (
+          <div class="product">
+            <h2>{product.name}</h2>
+            <a href={`/details/${product.id}`}>
+                <img src={`/images/${product.images[0].image}.png`} alt="">
+            </a>
+            <button>Add to Cart</button>
+          </div>
+		  ))}
+  </div>
+<style>
+    .products {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px
+    }
+    .product {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+    }
+    .product a img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+        margin-bottom: 25px;
+    }
+    button {
+        position: relative;
+        background-color: #000000;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }

@@ -1,18 +1,17 @@
 ---
 import Navigation from './Navigation.astro';
-import kdg_logo from '../assets/kdg_logo.jpg';
-import shoppingcart from '../assets/reshot-icon-shopping-cart-WFDT3CVZMJ.svg';
+
 const {pageTitle} = Astro.props;
 ---
 <header>
-    <img src={kdg_logo.src} width="100px" alt="het logo van KDG"/>
+    <img src="/images/kdg_logo.jpg" width="100px" alt="het logo van KDG"/>
       <h1>{pageTitle}</h1>
     <div>
        <nav>
         <Navigation />
        </nav>
        <a href="/order">
-            <img src={shoppingcart.src}  width="50px" alt="Winkelmandje" > 
+            <img src="/images/reshot-icon-shopping-cart-WFDT3CVZMJ.svg"  width="50px" alt="Winkelmandje" > 
       </a>
     </div>
 

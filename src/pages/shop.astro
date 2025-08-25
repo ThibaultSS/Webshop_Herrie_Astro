@@ -1,9 +1,11 @@
 ---
 import Layout from '../layouts/BasicLayout.astro';
+import Product from '../components/Product.astro';
 const pageTitle = "Shop";
-
+const response = await fetch("http://127.0.0.1:8000/astro/get/products");
+const products = await response.json();
 ---
 
 <Layout pageTitle={pageTitle}>
-  <p>These is every KDG-merch. Enjoy</p>
+  <Product products={products} />
 </Layout>
