@@ -24,22 +24,27 @@ const product = Astro.props.products;
                     <button id="minus-btn">-</button>
                 </div>
                 <div class="number col col-2">
-                    <h1 id="count">0</h1>
+                    <h1 id="count">1</h1>
                 </div>
                 <div class="button col col-1">
                     <button id="plus-btn">+</button>
             </div>
             </div>
         </div>
-        <div class="add-to-cart">
-            <button>Add to Cart</button>
-        </div>
+        <div>
+  <a 
+    id="add-to-cart-link"
+    data-product-id={product.id}
+    href={`http://127.0.0.1:8000/api/order?product_id=${product.id}&amount=1&cart_number=0`}>
+    <button type="button">Add to Cart</button>
+  </a>
+</div>
     </div>
  
    </div>
 
 </div>
-<script client:load>
+<script is:client>
     const slides = document.getElementById('slides');
     const totalSlides = slides.children.length;
     let currentIndex = 0;
@@ -64,26 +69,35 @@ const product = Astro.props.products;
         showSlide(currentIndex);
     }
     let minusBtn = document.getElementById("minus-btn");
-    let count = document.getElementById("count");
-    let plusBtn = document.getElementById("plus-btn");
+let count = document.getElementById("count");
+let plusBtn = document.getElementById("plus-btn");
+let addToCartLink = document.getElementById("add-to-cart-link");
 
-    let countNum = 0;
+let countNum = 1;
+count.innerHTML = countNum;
+
+const productId = addToCartLink.dataset.productId;
+
+function updateLink() {
+  addToCartLink.href = `http://127.0.0.1:8000/api/order?product_id=${productId}&amount=${countNum}&cart_number=0`;
+}
+
+minusBtn.addEventListener("click", () => {
+  if (countNum > 1) {
+    countNum--;
     count.innerHTML = countNum;
+    updateLink();
+  }
+});
 
-    minusBtn.addEventListener("click", () => {
-        if(countNum > 0){
-        countNum -= 1;
-        }
-        count.innerHTML = countNum;
-    });
-
-    plusBtn.addEventListener("click", () => {
-        countNum += 1;
-        count.innerHTML = countNum;
-    });
-
+plusBtn.addEventListener("click", () => {
+  countNum++;
+  count.innerHTML = countNum;
+  updateLink();
+});
 
 </script>
+
 <style>
     h1 {
         text-align: center;
@@ -184,10 +198,7 @@ const product = Astro.props.products;
         font-size: 1.5rem;
         margin: 0 20px;
     }
-    .add-to-cart {
-        margin-top: 20px;
-    }
-    .add-to-cart button {
+    a button {
         background-color: #000000;
         color: white;
         border: none;

@@ -1,0 +1,22 @@
+---
+const product = Astro.props.product;
+const amount = Astro.props.amount;
+---
+
+<a href={`http://127.0.0.1:8000/api/order?product_id=${product.id}&amount=${amount}&cart_number=0`}>
+  <button type="button">Add to Cart</button>
+</a>
+
+
+
+<style>
+    button {
+        background-color: #000000;
+        color: white;
+        border: none;
+        padding: 10px 27px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+</style>
