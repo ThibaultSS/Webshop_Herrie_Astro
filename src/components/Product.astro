@@ -1,6 +1,14 @@
 ---
 const products = Astro.props.products;
+const url = new URL(Astro.request.url);
+const cart = url.searchParams.get("cart");
 ---
+
+<div>
+  {cart === "1" && (
+    <div class="popup">Added to cart</div>
+  )}
+</div>
   <div class="products">
 	{products.map((product) => (
           <div class="product">
@@ -8,10 +16,48 @@ const products = Astro.props.products;
             <a href={`/details/${product.id}`}>
                 <img src={`/images/${product.images[0].image}.png`} alt="">
             </a>
-            <button>Add to Cart</button>
+              <button class="add-to-cart-btn" data-product-id={product.id} type="button">Add to Cart</button>
           </div>
 		  ))}
   </div>
+
+<script is:client>
+    const popup = document.querySelector('.popup');
+    if (popup) {
+        setTimeout(() => {
+            popup.style.opacity = '0';
+            popup.style.transform = 'translate(-50%, -60%)';
+            setTimeout(() => {
+                popup.remove();
+                const url = new URL(window.location.href);
+                url.searchParams.delete("cart"); // removes it
+                window.history.replaceState({}, "", url);
+            }, 500);
+        }, 2000);
+    }
+    const addToCartButtons = document.querySelectorAll(".add-to-cart-btn");
+    async function addToCart(event) {
+  const productId = event.currentTarget.dataset.productId;
+  const url = `http://127.0.0.1:8000/api/order?product_id=${productId}&amount=1&cart_number=0`;
+
+  try {
+    let res = await fetch(url, { method: "GET" });
+    let data = await res.json();
+
+    if (data.status === "ok") {
+      window.location.href = "/shop?cart=1";
+    }
+  } catch (err) {
+    console.error("Error adding to cart", err);
+  }
+}
+
+addToCartButtons.forEach((btn) => {
+  btn.addEventListener("click", addToCart);
+});
+    
+</script>
+
 <style>
     .products {
         display: flex;
@@ -44,3 +90,19 @@ const products = Astro.props.products;
         border-radius: 4px;
         cursor: pointer;
     }
+    .popup {
+        position: fixed;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #4caf50;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        font-weight: bold;
+        font-size: 1.1rem;
+        z-index: 1000;
+        opacity: 1;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+</style>
