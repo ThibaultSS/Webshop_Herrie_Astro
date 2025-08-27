@@ -30,7 +30,7 @@ let totalAmount = 0;
         </h2>
     </div>
     <div class="checkout">
-        <button>Proceed to Checkout</button>
+        <button id="checkout-btn">Proceed to Checkout</button>
     </div>
   </div>
 
@@ -52,6 +52,9 @@ let totalAmount = 0;
             }
         });
     });
+    document.getElementById("checkout-btn").addEventListener("click", () => {
+    window.location.href = "http://127.0.0.1:8000/order";
+  });
 </script>
 
   <style>

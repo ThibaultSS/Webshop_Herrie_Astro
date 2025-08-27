@@ -17,6 +17,7 @@ const product = Astro.props.products;
     </div>
     <div>
         <p>{product.description}</p>
+        <p>After paying online, pick up your items at the STIP of your campus.</p>
         <p>Price: <strong>€{product.price}</strong></p>
         <div class="frame">
         <div class="center container">
@@ -213,5 +214,8 @@ plusBtn.addEventListener("click", () => {
         border-radius: 4px;
         cursor: pointer;
         font-size: 1.2rem;
+    }
+    p{
+        font-weight: bold;
     }
 </style>

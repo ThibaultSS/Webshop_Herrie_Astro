@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/BasicLayout.astro';
 import ShoppingCart from '../components/ShoppingCart.astro';
+import { API_URL } from "../config.js";
 const pageTitle = "Shopping Cart";
-const response = await fetch("http://127.0.0.1:8000/astro/get/shoppingcart");
+const response = await fetch(`${API_URL}astro/get/shoppingcart`);
 const carts = await response.json();
 ---
 

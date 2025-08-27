@@ -1,8 +1,9 @@
 ---
 import Layout from '../../layouts/BasicLayout.astro';
 import ProductDetail from '../../components/ProductDetail.astro';
+import { API_URL } from "../../config.js";
 const { id } = Astro.params;
-const pageURL = "http://127.0.0.1:8000/astro/get/products/" + id;
+const pageURL = `${API_URL}astro/get/products/` + id;
 const response = await fetch(pageURL);
 const products = await response.json();
 

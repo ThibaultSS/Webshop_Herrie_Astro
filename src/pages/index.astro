@@ -1,9 +1,114 @@
 ---
 import Layout from '../layouts/BasicLayout.astro';
+const url = new URL(Astro.request.url);
+const status = url.searchParams.get("status");
 const pageTitle = "Home";
 
 ---
 
 <Layout pageTitle={pageTitle}>
-  <p>Welcome to our webshop!</p>
+    <div>
+  {status === "betaald" && (
+    <div class="popup-good">Order paid succesfully</div>
+  )}
+  {status === "mislukt" && (
+    <div class="popup-bad">Order cancelled</div>
+  )}
+    {status === "ok" && (
+    <div class="popup-good">Email send</div>
+  )}
+</div>
+  <div class="home">
+      <h2>Welcome to our webshop!</h2>
+      <p>Starting this academic year, Karel de Grote Hogeschool launches high-quality and trendy merchandise for all students. We offer you a cap, backpack and hooded sweatshirt at a reasonable price, all printed with the KDG logo. Declared by students as the best "Hogeschool of Europe", we are convinced that these items will further promote the teamspirit among students. </br> So shop now, you won't regret it!</p>
+      <button id="shop-btn">Shop</button>
+  </div>
 </Layout>
+
+<script is:client>
+      const popup = document.querySelector('.popup');
+    if (popup) {
+        setTimeout(() => {
+            popup.style.opacity = '0';
+            popup.style.transform = 'translate(-50%, -60%)';
+            setTimeout(() => {
+                popup.remove();
+                const url = new URL(window.location.href);
+                url.searchParams.delete("cart"); // removes it
+                window.history.replaceState({}, "", url);
+            }, 500);
+        }, 2000);
+    }
+  document.getElementById("shop-btn").addEventListener("click", () => {
+    window.location.href = "/shop";
+  });
+</script>
+<style>
+  button {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 15px 75px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 26px;
+    cursor: pointer;
+    border-radius: 32px;
+  }
+    .popup-good {
+        position: fixed;
+        left: 50%;
+        transform: translate(-50%, 0);
+        background-color: #4BB543;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        z-index: 1000;
+        animation: fadeOutMoveUp 0.5s ease forwards;
+        animation-delay: 2s; /* Delay before starting the animation */
+    }
+
+    .popup-bad {
+        position: fixed;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        background-color: #FF4C4C;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        z-index: 1000;
+        animation: fadeOutMoveUp 0.5s ease forwards;
+        animation-delay: 2s; /* Delay before starting the animation */
+    }
+
+    @keyframes fadeOutMoveUp {
+        to {
+            opacity: 0;
+            transform: translate(-50%, -20px);
+        }
+    }
+  .home {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  .home h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  .home p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  .home button:hover {
+    background-color: #2c2020;
+  }
+
+</style>
